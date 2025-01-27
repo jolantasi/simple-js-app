@@ -1,9 +1,6 @@
 let pokemonRepository = (function () {
-    let pokemonList = [
-        { name: 'Bulbasaur', height: 0.7, types: ['grass', 'poison'] },
-        { name: 'Pikachu', height: 0.4, types: ['electric'] },
-        { name: 'Pichu', height: 0.3, types: ['electric'] },
-    ];
+    let pokemonList = [];
+    let apiURL = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
     // Function to return all Pokémon
     function getAll() {
@@ -12,49 +9,80 @@ let pokemonRepository = (function () {
 
     // Function to add a Pokémon to the list
     function add(pokemon) {
-        pokemonList.push(pokemon);
+        if (typeof pokemon === 'object' && 'name' in pokemon && 'detailsUrl' in pokemon) {
+            pokemonList.push(pokemon);
+        } else {
+            console.error('Invalid Pokémon object:', pokemon);
+        }
+    }
+
+    // Function to load the list of Pokémon from the API
+    function loadList() {
+        return fetch(apiURL)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (json) {
+                console.log(json);  // Log the fetched data to see if it's correct
+                json.results.forEach(function (item) {
+                    let pokemon = {
+                        name: item.name,
+                        detailsUrl: item.url
+                    };
+                    add(pokemon);
+                });
+            })
+            .catch(function (e) {
+                console.error(e);
+            });
     }
 
     function addListItem(pokemon) {
-        // Select the <ul> element from the DOM
         let pokemonListElement = document.querySelector('.pokemon-list');
-
-        // Create a new <li> element
         let listItem = document.createElement('li');
-
-        // Create a new button element
         let button = document.createElement('button');
-        button.innerText = pokemon.name; // Use the parameter `pokemon` here
-        button.classList.add('pokemon-button'); // Add a class for styling
+        button.innerText = pokemon.name;
+        button.classList.add('pokemon-button');
         button.addEventListener('click', function () {
             showDetails(pokemon);
         });
-        
-        // Append the button to the list item
         listItem.appendChild(button);
-
-        // Append the list item to the <ul>
         pokemonListElement.appendChild(listItem);
     }
 
     function showDetails(pokemon) {
-        console.log(pokemon.name)
+        loadDetails(pokemon).then(function () {
+            console.log(pokemon);
+        });
     }
-
+    
+    function loadDetails(item) {
+        let url = item.detailsUrl;
+        return fetch(url).then(function (response) {
+          return response.json();
+        }).then(function (details) {
+          // Now add the details to the item
+          item.imageUrl = details.sprites.front_default;
+          item.height = details.height;
+          item.types = details.types;
+        }).catch(function (e) {
+          console.error(e);
+        });
+    }
+    
     return {
-        getAll: getAll,
         add: add,
-        addListItem: addListItem, // Add addListItem to the returned object
+        getAll: getAll,
+        loadList: loadList,
+        loadDetails: loadDetails,
+        showDetails: showDetails,
+        addListItem: addListItem,
     };
 })();
 
 // Use getAll() to iterate over the Pokémon in the repository
-pokemonRepository.getAll().forEach(function (pokemon) {
-    pokemonRepository.addListItem(pokemon); // Call addListItem and pass each Pokémon object
+pokemonRepository.loadList().then(function () {
+    pokemonRepository.getAll().forEach(function (pokemon) {
+        pokemonRepository.addListItem(pokemon);
+    });
 });
-
-
-
-
-
-   
