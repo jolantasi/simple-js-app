@@ -1,127 +1,65 @@
-/* Basic page styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #dfeb96;
-    color: #333;
-}
-
-/* Center heading and add spacing */
-h1 {
-    text-align: center;
-    margin: 20px 0;
-    color: black;
-}
-
-/* Remove default list styling */
+/* Style for Pokémon List */
 .pokemon-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* List items are stacked vertically */
-.pokemon-list li {
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-/* Style buttons */
-.pokemon-button {
-    background-color: #a8d5ba; /* Light green background */
-    color: black; /* Black text */
-    border: none;
-    padding: 10px;
-    font-size: 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    max-width: 200px;
-    margin: 0 auto;
-}
-
-.pokemon-button:hover {
-    background-color: #45a049;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 18px;
-    }
-
-    .pokemon-button {
-        font-size: 12px;
-        padding: 8px;
-    }
-}
-
-/* Modal design */
-html, 
-body {
-  font-family: Arial, sans-serif;
-}
-
-/* Modal Container - Initially Hidden */
-#modal-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 9999; /* Ensures it is above other elements */
-    align-items: center;
-    justify-content: center;
-}
-
-#modal-container.is-visible {
     display: flex;
-     /* To show it above other content */
-    z-index: 999; 
-    /* Allow scrolling if the screen is not high enough */
-    overflow: auto; 
-    /* Center the modal */
-    display: grid;
-    place-items: center;
-    text-align: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 0;
+    list-style: none;
 }
 
-/* Modal Box */
-.modal {
-    margin: auto;
-    display: inline-block;
-    box-sizing: border-box;
-    background: #fff;
-    padding: 15px;
+/* Pokémon Card Styling */
+.pokemon-list .list-group-item {
+    width: 150px;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+/* Pokémon Button Styling */
+.pokemon-list button {
     width: 100%;
-    max-width: 700px;
-    text-align: left;
+    padding: 10px;
+    background: linear-gradient(135deg, #ffcc00, #ff9900); /* Pikachu-inspired yellow-orange */
+    color: #2c2c2c; /* Dark grey for contrast */
+    font-weight: bold;
+    border-radius: 10px;
+    border: 2px solid #ff6600;
+    transition: 0.3s;
+    font-family: 'Poppins', sans-serif; /* Optional: Modern Pokémon font */
+}
+
+/* Hover Effect */
+.pokemon-list button:hover {
+    background: linear-gradient(135deg, #ff9900, #ff6600);
+    transform: scale(1.05);
+    color: white;
+}
+
+/* Pokémon-Themed Background */
+body {
+    background: url('https://wallpapercave.com/wp/wp5750294.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Modal Styles */
+.modal-content {
+    text-align: center;
+    background: white;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Close Button */
-.modal-close {
-    float: right;
-    appearance: none;
-    -webkit-appearance: none;
-    border: 0;
-    background: none;
-    color: #777;
-    text-decoration: underline;
-    cursor: pointer;
-    font-size: 16px;
+.modal-header, .modal-footer {
+    background: #ffcc00;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 2px solid #ff9900;
 }
 
-/* Ensure the modal title does not have unwanted margin */
-.modal h1 {
-    margin-top: 0;
-}
-
-/* Prevent modal text from unnecessary bottom margin */
-.modal p {
-    margin-bottom: 0;
+.modal-body img {
+    width: 100%;
+    max-width: 200px;
+    margin: 10px auto;
+    display: block;
 }
