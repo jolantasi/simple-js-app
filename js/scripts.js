@@ -105,3 +105,21 @@ document.addEventListener("DOMContentLoaded", function () {
       $('#pokemonModalLabel').focus();
     });
   });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("keyup", function () {
+      let filter = searchInput.value.toLowerCase();
+      let pokemonList = document.querySelectorAll(".pokemon-list button");
+  
+      pokemonList.forEach(function (pokemon) {
+        let name = pokemon.textContent.toLowerCase();
+        if (name.includes(filter)) {
+          pokemon.parentElement.style.display = "block";
+        } else {
+          pokemon.parentElement.style.display = "none";
+        }
+      });
+    });
+  });
+  
